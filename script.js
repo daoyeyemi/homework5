@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    // test
+
     const trial = false;
 
     const present = moment().format('MMMM Do YYYY');
@@ -7,7 +7,7 @@ $(document).ready(function(){
     let nowHour24 = moment().format('H');
     let nowHour12 = moment().format('h');
 
-    if (test) {
+    if (trial) {
         nowHour24 = 13;
         nowHour12 = 1;
     }
@@ -58,10 +58,52 @@ $(document).ready(function(){
         let $col9Div = $("<div>");
         $col9Div.addClass("col-md-8");
 
-        $
+        let $col2Save = $("div");
+        $col2Save.addClass("col-md-2");
+
+        let $saveBtn = $('<i>');
+        $saveBtn.attr('id','saveid-${value}');
+        $saveBtn.attr('save-id',value);
+        $saveBtn.attr('class',"far fa-save saveIcon");
+
+        $entireRow.append($col2Save);
+        $col2Save.append($saveBtn);
 
 
+        updateColor($entireRow, time);
 
-    }
+        $plannerSpace.append($entireRow);
+    };
+        function updateColor ($hourRow,time) {
+            if (time < hourNow) {
+                $hourRow.css("background-color","lightgrey")
+            } else if (time > hourNow) {
+                $hourRow.css("background-color","lightgreen")
+            } else {
+                $hourRow.css("background-color","tomato")
+            }
+        }
 
+        $(document).on('click','i', function(event) {
+            event.preventDefault();  
+        
+        
+            let $index = $(this).attr('save-id');
+        
+            let inputId = '#input-'+$value;
+            let $value = $(inputId).val();
+        
+            planTextArr[$index] = $value;
+
+            $(`#saveid-${$index}`).removeClass('shadowPulse');
+    localStorage.setItem("storedPlans", JSON.stringify(planTextArr));
+  });  
+
+  $(document).on('change','input', function(event) {
+    event.preventDefault();  
+
+    let i = $(this).attr('time-value');
+
+    $(`#saveid-${i}`).addClass('shadowPulse');
+  });
 })
